@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🌈 快乐视频咨询 🌈</title>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink: #FF9ECD;
+            --blue: #87CEFA;
+            --yellow: #FFE5A3;
+            --purple: #E6C3FF;
+            --mint: #B4F0D3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Varela Round', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pink) 0%, var(--blue) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 添加可爱的装饰元素 */
+        .decoration {
+            position: fixed;
+            font-size: 2.5rem;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .decoration:nth-child(1) { top: 5%; left: 5%; animation-delay: 0s; }
+        .decoration:nth-child(2) { top: 15%; right: 10%; animation-delay: 1s; }
+        .decoration:nth-child(3) { bottom: 10%; left: 8%; animation-delay: 2s; }
+        .decoration:nth-child(4) { bottom: 15%; right: 5%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(0, -20px) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 3px solid var(--yellow);
+            position: relative;
+        }
+
+        .header h1 {
+            color: var(--pink);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .video-container {
+            background: white;
+            border-radius: 25px;
+            padding: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 3px solid var(--mint);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .video-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-container::before {
+            content: '🎀';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            font-size: 30px;
+            z-index: 1;
+        }
+
+        video {
+            width: 100%;
+            height: 350px;
+            border-radius: 15px;
+            background: var(--purple);
+            object-fit: cover;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 3px solid var(--blue);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--pink);
+            color: white;
+            font-family: 'Varela Round', sans-serif;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-start { background: var(--mint); }
+        .btn-mute { background: var(--blue); }
+        .btn-video { background: var(--yellow); color: #666; }
+        .btn-end { background: var(--pink); }
+
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: var(--yellow);
+            color: #666;
+            font-size: 14px;
+            z-index: 1;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- 装饰元素 -->
+    <div class="decoration">🌸</div>
+    <div class="decoration">🌈</div>
+    <div class="decoration">⭐</div>
+    <div class="decoration">🎨</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>✨ 快乐视频咨询 ✨</h1>
+            <p>让我们开始愉快的交谈吧！</p>
+        </div>
+
+        <div class="video-grid">
+            <div class="video-container">
+                <div class="status-badge">我的画面 👋</div>
+                <video id="localVideo" autoplay muted playsinline></video>
+            </div>
+            <div class="video-container">
+                <div class="status-badge">对方画面 🤝</div>
+                <video id="remoteVideo" autoplay playsinline></video>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="startBtn" class="btn btn-start">
+                🎥 开始咨询
+            </button>
+            <button id="muteBtn" class="btn btn-mute">
+                🎤 静音
+            </button>
+            <button id="videoBtn" class="btn btn-video">
+                📷 关闭视频
+            </button>
+            <button id="endBtn" class="btn btn-end">
+                👋 结束咨询
+            </button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html> 
